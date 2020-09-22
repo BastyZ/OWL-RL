@@ -279,6 +279,16 @@ class Core:
                 self.graph.add(t)
 
         self.post_process()
+        
+        # Removes all generalized triples
+        to_be_removed = []
+        for t in self.graph:
+            s, p, o = t
+            if isinstance(s, Literal):
+                to_be_removed.append(t)
+        for t in to_be_removed:
+            self.graph.remove(t)
+        
         self.flush_stored_triples()
 
         # Add possible error messages
